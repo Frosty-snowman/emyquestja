@@ -67,4 +67,13 @@ class QuestsController < ApplicationController
     def quest_params
       params.expect(quest: [ :name, :status ])
     end
+    def destroy_multiple
+      if params[:quest_ids].present?
+        Quest.where(id: params[:quest_ids]).destroy_all
+        redirect_to quests_path, notice: "Selected quests were successfully deleted."
+      else
+        redirect_to quests_path, alert: "Please select at least one quest to delete."
+      end
+    end
+    
 end
