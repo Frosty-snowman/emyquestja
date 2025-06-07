@@ -16,8 +16,8 @@ class QuestsController < ApplicationController
   end
 
   # GET /quests/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /quests or /quests.json
   def create
@@ -67,12 +67,22 @@ class QuestsController < ApplicationController
     def quest_params
       params.expect(quest: [ :name, :status ])
     end
-    def destroy_multiple
-      if params[:quest_ids].present?
-        Quest.where(id: params[:quest_ids]).destroy_all
-        redirect_to quests_path, notice: "Selected quests were successfully deleted."
+    # def destroy_multiple
+    #   if params[:quest_ids].present?
+    #     Quest.where(id: params[:quest_ids]).destroy_all
+    #     redirect_to quests_path, notice: "Selected quests were successfully deleted."
+    #   else
+    #     redirect_to quests_path, alert: "Please select at least one quest to delete."
+    #   end
+    # end
+
+    def toggle_complete
+      @quest.completed = params[:completed]
+      
+      if @quest.save
+        render json: { success: true, completed: @quest.completed }
       else
-        redirect_to quests_path, alert: "Please select at least one quest to delete."
+        render json: { success: false, errors: @quest.errors }
       end
     end
     
