@@ -10,18 +10,38 @@
     <h1 class="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-center text-gray-800">Nattapat Pinrat</h1>
   </div>
 
-  <!-- Images -->
-  <div class="flex justify-center items-center gap-3 sm:gap-6 mb-3 sm:mb-6 flex-wrap">
-    <%= image_tag("frost1.jpg", alt: "Frosty banner 1", class: "rounded-xl w-[140px] sm:w-[200px] lg:w-[300px] shadow-lg") %>
-  </div>
+<!-- Profile Card -->
+<div class="flex flex-col sm:flex-row items-center justify-between bg-blue-50 border border-blue-100 rounded-2xl p-4 sm:p-6 mb-6 shadow-sm">
+  <!-- Profile Info -->
+  <div class="flex items-center gap-4 sm:gap-6">
+    <!-- Image -->
+    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-white shadow-md">
+      <%= image_tag("frost1.jpg", alt: "Profile photo", class: "w-full h-full object-cover") %>
+    </div>
 
-  <!-- Header Section -->
-  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 sm:mb-6 gap-3 sm:gap-4">
-    <h2 class="font-bold text-xl sm:text-2xl lg:text-4xl text-center sm:text-left text-gray-800">My Academy Quests</h2>
-    <div class="flex justify-center sm:justify-end">
-      <%= link_to "My Brag", brag_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <!-- Name and Position -->
+    <div>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Nattapat Pinrat</h2>
+      <p class="text-blue-600 font-medium">Farmhouse 🥐</p>
+      <p class="text-gray-500 text-sm">Developer</p>
     </div>
   </div>
+
+  <!-- Brag Button -->
+  <div class="mt-4 sm:mt-0">
+    <%= link_to brag_path, class: "inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-white text-blue-600 border border-blue-100 hover:shadow-md transition" do %>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h5l2 2h4a2 2 0 012 2v10a2 2 0 01-2 2z"/>
+      </svg>
+      My Brag Document
+    <% end %>
+  </div>
+</div>
+
+
+ <!-- Header Section -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 sm:mb-6 gap-3 sm:gap-4">
+    <h2 class="font-bold text-xl sm:text-2xl lg:text-4xl text-center sm:text-left text-gray-800">My Academy Quests</h2>
+  </div> 
 
   <!-- Form สำหรับสร้าง Quest ใหม่ -->
   <div class="mb-4 sm:mb-8">
@@ -54,7 +74,7 @@
           
           <!-- Action buttons -->
           <div class="flex gap-2 justify-end sm:justify-start">
-            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-red-500 hover:bg-red-600 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure?" } %>
+            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 hover:bg-red-600 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure?" } %>
           </div>
         </div>
       <% end %>
