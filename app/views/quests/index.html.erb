@@ -7,7 +7,7 @@
 
   <!-- Header - ลดระยะห่าง -->
   <div class="flex justify-center items-center gap-1 sm:gap-8 mb-3 sm:mb-6">
-    <h1 class="font-bold text-2xl sm:text-3xl lg:text-4xl text-center">Nattapat Pinrat</h1>
+    <h1 class="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-center">Nattapat Pinrat</h1>
   </div>
 
   <!-- Images - ลดระยะห่าง -->
@@ -30,7 +30,7 @@
           placeholder: "New quest...", 
           class: "w-full sm:flex-1 sm:max-w-md px-4 py-3 rounded-lg border border-gray-900 bg-white text-black-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base" %>
       <%= form.submit "Add", 
-          class: "w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-600 text-white font-medium rounded-lg cursor-pointer transition-colors" %>
+          class: "w-full sm:w-auto px-6 py-3 bg-purple-600 hover:bg-blue-600 text-white font-medium rounded-lg cursor-pointer transition-colors" %>
     <% end %>
   </div>
 
@@ -54,7 +54,7 @@
           
           <!-- Action buttons -->
           <div class="flex gap-2 justify-end sm:justify-start">
-            <%= button_to "Destroy", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure?" } %>
+            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white hover:bg-red-500 font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure?" } %>
           </div>
         </div>
       <% end %>
