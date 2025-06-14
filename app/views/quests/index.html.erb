@@ -30,8 +30,7 @@
   <!-- Brag Button -->
   <div class="mt-4 sm:mt-0">
     <%= link_to brag_path, class: "inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-white text-blue-600 border border-blue-100 hover:shadow-md transition" do %>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h5l2 2h4a2 2 0 012 2v10a2 2 0 01-2 2z"/>
-      </svg>
+
       My Brag Document
     <% end %>
   </div>
@@ -74,7 +73,7 @@
           
           <!-- Action buttons -->
           <div class="flex gap-2 justify-end sm:justify-start">
-            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 hover:bg-red-600 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure?" } %>
+            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 hover:bg-red-300 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "ตั้งใจลบจริงๆ ใช่ไหม ?" } %>
           </div>
         </div>
       <% end %>
