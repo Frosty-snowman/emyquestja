@@ -29,7 +29,7 @@
     <%= form_with model: Quest.new, url: quests_path, method: :post, local: true, class: "flex flex-col sm:flex-row gap-3 sm:gap-4" do |form| %>
       <%= form.text_field :name, 
           placeholder: "New quest...", 
-          class: "w-full sm:flex-1 sm:max-w-md px-4 py-3 rounded-lg border border-gray-300 bg-white text-black-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base" %>
+          class: "w-full sm:flex-1 sm:max-w-md px-4 py-3 rounded-lg border border-gray-600 bg-white text-black-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base" %>
       <%= form.submit "Add", 
           class: "w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-600 text-white font-medium rounded-lg cursor-pointer transition-colors" %>
     <% end %>

@@ -2,7 +2,8 @@ class QuestsController < ApplicationController
   before_action :set_quest, only: %i[show update destroy]
 
   def index
-    @quests = Quest.all
+    # เรียงตาม created_at เฉพาะ เพื่อให้ quest อยู่ในตำแหน่งเดิมเสมอ
+    @quests = Quest.order(created_at: :desc)
   end
 
   def show
