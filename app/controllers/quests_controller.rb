@@ -1,89 +1,40 @@
 class QuestsController < ApplicationController
-  before_action :set_quest, only: %i[ show edit update destroy ]
+  before_action :set_quest, only: %i[show update destroy]
 
-  # GET /quests or /quests.json
   def index
     @quests = Quest.all
   end
 
-  # GET /quests/1 or /quests/1.json
   def show
   end
 
-  # GET /quests/new
   def new
     @quest = Quest.new
   end
 
-  # GET /quests/1/edit
-  # def edit
-  # end
-
-  # POST /quests or /quests.json
   def create
-    @quest = Quest.new(quest_params)
-
-    respond_to do |format|
-      if @quest.save
-        format.html { redirect_to @quest, notice: "Quest was successfully created." }
-        format.json { render :show, status: :created, location: @quest }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @quest.errors, status: :unprocessable_entity }
-      end
-    end
+    Quest.create!(quest_params)
+    redirect_to root_path
   end
 
-  # PATCH/PUT /quests/1 or /quests/1.json
   def update
-    respond_to do |format|
-      if @quest.update(quest_params)
-        format.html { redirect_to @quest, notice: "Quest was successfully updated." }
-        format.json { render :show, status: :ok, location: @quest }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @quest.errors, status: :unprocessable_entity }
-      end
-    end
+    @quest.update(quest_params)
+    redirect_to root_path
   end
 
-  # DELETE /quests/1 or /quests/1.json
   def destroy
-    @quest.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to quests_path, status: :see_other, notice: "Quest was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    quest = Quest.find(params[:id])
+    quest.destroy
+    redirect_to root_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_quest
-      @quest = Quest.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def quest_params
-      params.expect(quest: [ :name, :status ])
-    end
-    # def destroy_multiple
-    #   if params[:quest_ids].present?
-    #     Quest.where(id: params[:quest_ids]).destroy_all
-    #     redirect_to quests_path, notice: "Selected quests were successfully deleted."
-    #   else
-    #     redirect_to quests_path, alert: "Please select at least one quest to delete."
-    #   end
-    # end
+  def set_quest
+    @quest = Quest.find(params[:id])
+  end
 
-    def toggle_complete
-      @quest.completed = params[:completed]
-      
-      if @quest.save
-        render json: { success: true, completed: @quest.completed }
-      else
-        render json: { success: false, errors: @quest.errors }
-      end
-    end
-    
+  def quest_params
+    params.require(:quest).permit(:name, :status, :completed)
+  end
 end
