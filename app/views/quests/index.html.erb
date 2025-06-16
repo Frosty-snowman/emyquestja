@@ -44,7 +44,7 @@
 
   <!-- Form สำหรับสร้าง Quest ใหม่ -->
   <div class="mb-4 sm:mb-8">
-    <%= form_with model: Quest.new, url: quests_path, method: :post, local: false, class: "flex flex-col sm:flex-row gap-3 sm:gap-4" do |form| %>
+    <%= form_with model: Quest.new, url: quests_path, method: :post, local: true, class: "flex flex-col sm:flex-row gap-3 sm:gap-4" do |form| %>
       <%= form.text_field :name, 
           placeholder: "✨ เพิ่ม Quest ใหม่...", 
           class: "w-full sm:flex-1 sm:max-w-md px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base" %>
@@ -60,7 +60,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-white border border-gray-200 rounded-lg gap-3 sm:gap-0 shadow-sm">
           <!-- Quest content -->
           <div class="flex items-center gap-3 flex-1">
-            <%= form_with model: quest, url: quest_path(quest), method: :patch, local: false do |form| %>
+            <%= form_with model: quest, url: quest_path(quest), method: :patch, local: true do |form| %>
               <%= form.check_box :completed, 
                   onchange: "this.form.submit()", 
                   checked: quest.completed,
@@ -73,7 +73,7 @@
           
           <!-- Action buttons -->
           <div class="flex gap-2 justify-end sm:justify-start">
-            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 hover:bg-red-300 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "ตั้งใจลบจริงๆ ใช่ไหม ?" } %>
+            <%= button_to "🗑️", quest, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 hover:bg-red-300 text-white font-medium cursor-pointer text-sm sm:text-base", data: { turbo_confirm: "Are you sure ?" } %>
           </div>
         </div>
       <% end %>
