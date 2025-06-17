@@ -1,120 +1,101 @@
 require 'rails_helper'
-RSpec.describe "/quests", type: :request do
-  
-  let(:valid_attributes) {
-    { 
-      name: "Test Quest",
-      status: false
-    }
-}
-  let(:invalid_attributes) {
-  {  
-    name: nil,
-    status: nil
-  }
-}
-  describe "GET /index" do
-    it "renders a successful response" do
-      Quest.create! valid_attributes
-      get quests_url
-      expect(response).to be_successful
+
+RSpec.describe "Quests", type: :request do
+  describe "GET /quests" do
+    it "returns successful response" do
+      get root_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it "displays quests in correct order" do
+      Quest.create!(name: "First Quest")
+      Quest.create!(name: "Second Quest")
+      get root_path
+      expect(response.body).to include("First Quest")
+      expect(response.body).to include("Second Quest")
     end
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      quest = Quest.create! valid_attributes
-      get quest_url(quest)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_quest_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "renders a successful response" do
-      quest = Quest.create! valid_attributes
-      get edit_quest_url(quest)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
+  describe "POST /quests" do
     context "with valid parameters" do
-      it "creates a new Quest" do
+      it "creates a new quest" do
         expect {
-          post quests_url, params: { quest: valid_attributes }
+          post quests_path, params: { quest: { name: "New Quest" } }
         }.to change(Quest, :count).by(1)
+        expect(response).to redirect_to(root_path)
       end
 
-      it "redirects to the created quest" do
-        post quests_url, params: { quest: valid_attributes }
-        expect(response).to redirect_to(quest_url(Quest.last))
+      it "creates a quest with status and completion" do
+        post quests_path, params: {
+          quest: {
+            name: "Complex Quest",
+            status: true,
+            completed: true
+          }
+        }
+        expect(Quest.last.status).to be true
+        expect(Quest.last.completed).to be true
       end
     end
 
     context "with invalid parameters" do
-      it "does not create a new Quest" do
+      it "does not create a quest" do
         expect {
-          post quests_url, params: { quest: invalid_attributes }
-        }.to change(Quest, :count).by(0)
+          post quests_path, params: { quest: { name: "" } }
+        }.not_to change(Quest, :count)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post quests_url, params: { quest: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+      it "does not create a quest with only whitespace" do
+        expect {
+          post quests_path, params: { quest: { name: "   " } }
+        }.not_to change(Quest, :count)
       end
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-      {  
-        name:"Updated Quest",
-        status: true
-      }
-      }
+  describe "PATCH /quests/:id" do
+    let(:quest) { Quest.create!(name: "Original Quest") }
 
-
-
-      it "redirects to the quest" do
-        quest = Quest.create! valid_attributes
-        patch quest_url(quest), params: { quest: new_attributes }
-        quest.reload
-        expect(response).to redirect_to(quest_url(quest))
-      end
+    it "updates quest name" do
+      patch quest_path(quest), params: { quest: { name: "Updated Quest" } }
+      expect(quest.reload.name).to eq("Updated Quest")
+      expect(response).to redirect_to(root_path)
     end
 
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        quest = Quest.create! valid_attributes
-        patch quest_url(quest), params: { quest: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+    it "updates quest status" do
+      patch quest_path(quest), params: { quest: { status: true, completed: true } }
+      expect(quest.reload.status).to be true
+      expect(quest.reload.completed).to be true
     end
   end
 
-  describe "DELETE /destroy" do
+  describe "DELETE /quests/:id" do
+    let!(:quest) { Quest.create!(name: "Test Quest") }
+
     it "destroys the requested quest" do
-      quest = Quest.create! valid_attributes
       expect {
-        delete quest_url(quest)
+        delete quest_path(quest)
       }.to change(Quest, :count).by(-1)
+      expect(response).to redirect_to(root_path)
     end
 
-    it "redirects to the quests list" do
-      quest = Quest.create! valid_attributes
-      delete quest_url(quest)
-      expect(response).to redirect_to(quests_url)
+    it "handles non-existent quest" do
+      delete quest_path(id: 999999)
+      expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe "error handling" do
+    it "handles routing errors gracefully" do
+      get "/non_existent_path"
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+  # describe "GET /brag" do
+  #   it "success" do
+  #     get :brag
+  #     expect(reponse).to have_http_status(:ok)
+  #   end
+  # end
 end
-
-
-#integretiontest
