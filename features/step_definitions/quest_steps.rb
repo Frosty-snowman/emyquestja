@@ -1,59 +1,50 @@
-Given("I am on the quest page") do
-  visit root_path
+Given("I am on the quests page") do
+  visit quests_path
 end
 
-Given("I wait for the page to load") do
-  expect(page).to have_css(".w-full", wait: 5)
+When(/^I fill in "(.*)" with "(.*)"$/) do |placeholder, value|
+  find("input[placeholder='#{placeholder}']").fill_in(with: value)
 end
 
-When("I fill in {string} with {string}") do |field, value|
-  fill_in field, with: value
+When('I press {string}') do |button|
+  click_button(button)
 end
 
-When("I press {string}") do |button|
-  click_button button
-end
-
-Then("I should see {string} within the quest list") do |text|
-  within(".w-full") do
-    expect(page).to have_content(text)
+When('I confirm and press {string}') do |button|
+  accept_alert do
+    click_button(button, match: :first)
   end
+end
+
+
+
+Then("I should see {string}") do |text|
+  expect(page).to have_content(text)
 end
 
 Then("I should not see {string}") do |text|
   expect(page).not_to have_content(text)
 end
 
-Then("I should see the error {string}") do |message|
-  expect(page).to have_content(message)
+Given("there are no quests") do
+  Quest.destroy_all
 end
 
-Given("I have a quest named {string}") do |name|
-  Quest.create!(name: name)
-end
-
-Given("I wait for the quest to appear") do
-  expect(page).to have_css(".w-full", wait: 5)
-end
-
-When("I mark the quest {string} as completed") do |name|
-  within(".w-full") do
-    find("div", text: name).find("input[type='checkbox']").click
+Given("the following quest exists:") do |table|
+  table.hashes.each do |row|
+    Quest.create!(name: row["name"], completed: row["completed"] == "true")
   end
 end
 
-Then("I should see the quest {string} is completed") do |name|
-  within(".w-full") do
-    expect(page).to have_css(".line-through", text: name)
+When(/^I check "(.*)"$/) do |quest_name|
+  quest = Quest.find_by(name: quest_name)
+  within("[data-testid='quest-form-#{quest.id}']") do
+    check("quest_completed") # ตรงกับ id หรือ name ของ checkbox
   end
 end
 
-When("I delete the quest {string}") do |name|
-  within(".w-full") do
-    within("div", text: name) do
-      accept_confirm do
-        click_button "Delete"
-      end
-    end
-  end
+
+
+Then(/^I should see "(.*)" as completed$/) do |quest_name|
+  expect(page).to have_css("h2.line-through", text: quest_name)
 end
