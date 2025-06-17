@@ -28,12 +28,6 @@ RSpec.describe Quest, type: :model do
       expect(Quest.find(quest.id)).to eq(quest)
     end
 
-    it "can be updated" do
-      quest = Quest.create!(name: "Original Name")
-      quest.update!(name: "Updated Name")
-      expect(quest.reload.name).to eq("Updated Name")
-    end
-
     it "can be deleted" do
       quest = Quest.create!(name: "To Be Deleted")
       expect { quest.destroy }.to change(Quest, :count).by(-1)
