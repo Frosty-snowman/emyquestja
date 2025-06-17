@@ -5,17 +5,18 @@ class QuestsController < ApplicationController
     # เรียงตาม created_at เฉพาะ เพื่อให้ quest อยู่ในตำแหน่งเดิมเสมอ
     @quests = Quest.order(created_at: :desc)
   end
-
-  def show
-  end
-
-  def new
-    @quest = Quest.new
-  end
+  # def new
+  #   @quest = Quest.new
+  # end
 
   def create
-    Quest.create!(quest_params)
-    redirect_to root_path
+    quest = Quest.new(quest_params)
+    if quest.save
+      redirect_to root_path
+    else
+      @quests = Quest.order(created_at: :desc)
+      render :index, status: :unprocessable_entity
+    end
   end
 
   def update
