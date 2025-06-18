@@ -92,10 +92,14 @@ RSpec.describe "Quests", type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
-  # describe "GET /brag" do
-  #   it "success" do
-  #     get :brag
-  #     expect(reponse).to have_http_status(:ok)
-  #   end
-  # end
+  describe "GET /brag" do
+    it "returns successful response" do
+      get brag_path
+      expect(response).to have_http_status(:ok)
+    end
+    it "displays brag document content" do
+      get brag_path
+      expect(response.body).to include("Brag Document")
+    end
+  end
 end
