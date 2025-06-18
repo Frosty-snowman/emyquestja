@@ -48,3 +48,16 @@ end
 Then(/^I should see "(.*)" as completed$/) do |quest_name|
   expect(page).to have_css("h2.line-through", text: quest_name)
 end
+
+Then('I should be on the brag page') do
+  expect(current_path).to eq(brag_path)
+end
+
+When('I click {string}') do |link_text|
+  click_link_or_button(link_text)
+  sleep 2
+end
+Then('I should be on the quests page') do
+  expect(current_path).to eq(quests_path)
+end
+

@@ -33,3 +33,14 @@ Scenario: User deletes a quest
     Then I should see "Learn Cucumber" as completed
 
 
+@javascript
+Scenario: User views brag document
+  Given I am on the quests page
+  When I click "Frosty Brag Document"
+  Then I should be on the brag page
+  And I should see "Brag Document 2025"
+  And I should see "เป้าหมายของ Frosty ในปี 2025"
+  And I should see "Manifesto ชีวิต"
+  When I click "← BACK"
+  Then I should be on the quests page
+
